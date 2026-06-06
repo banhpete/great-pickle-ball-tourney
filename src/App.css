@@ -7,8 +7,8 @@
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(2px);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
 }
 
 .header {
