@@ -75,6 +75,156 @@
   height: 64px; /* MATCH_H */
 }
 
+/* ── Ko content layout ────────────────────────── */
+
+.ko-content {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+/* ── Match list ───────────────────────────────── */
+
+.ko-match-section {
+  h2 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-h);
+  }
+}
+
+.ko-match-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ko-match-item {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ko-match-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ko-match-teams {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ko-team-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-h);
+  flex: 1;
+
+  &.winner { color: #16a34a; }
+
+  &:last-child { text-align: right; }
+}
+
+.ko-match-score {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-h);
+  white-space: nowrap;
+  min-width: 48px;
+  text-align: center;
+}
+
+.ko-match-status {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  &.status-pending {
+    background: rgba(250, 204, 21, 0.15);
+    color: #ca8a04;
+  }
+  &.status-in_progress {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+  }
+  &.status-completed {
+    background: rgba(34, 197, 94, 0.15);
+    color: #16a34a;
+  }
+}
+
+.ko-score-submit-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.ko-score-submit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ko-score-input {
+  width: 52px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--code-bg);
+  color: var(--text-h);
+  font-size: 13px;
+  text-align: center;
+
+  &:focus { outline: none; border-color: var(--accent); }
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button { -webkit-appearance: none; }
+  -moz-appearance: textfield;
+}
+
+.ko-score-sep {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.ko-submit-btn {
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:hover:not(:disabled) { opacity: 0.85; }
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
+}
+
+.ko-score-warning {
+  font-size: 11px;
+  color: #ef4444;
+  margin: 0;
+}
+
 /* Horizontal line going right (all rounds except last) */
 .bracket-round:not(.last) .match-slot::after {
   content: '';

@@ -136,6 +136,41 @@ export async function updateMatch(
   if (error) throw error
 }
 
+export async function createKnockoutMatch(
+  team1: MatchTeam,
+  team2: MatchTeam,
+  knockoutId: number,
+  knockoutOrder: number
+): Promise<Match> {
+  const { data, error } = await supabase
+    .from('Match')
+    .insert({
+      team_1_id: Number(team1.id),
+      team_2_id: Number(team2.id),
+      match_status: 'pending',
+      reference_object_type: 'Knockout',
+      reference_object_id: knockoutId,
+      knockout_order: knockoutOrder,
+      team_1_score: null,
+      team_2_score: null,
+      winning_team_id: null,
+    })
+    .select()
+    .single()
+  if (error) throw error
+  return {
+    ...data,
+    id: String(data.id),
+    team_1_id: Number(data.team_1_id),
+    team_2_id: Number(data.team_2_id),
+    reference_object_id: data.reference_object_id != null ? Number(data.reference_object_id) : null,
+    winning_team_id: data.winning_team_id != null ? Number(data.winning_team_id) : null,
+    knockout_order: data.knockout_order != null ? Number(data.knockout_order) : null,
+    team_1: team1,
+    team_2: team2,
+  }
+}
+
 export async function createMatch(
   input: CreateMatchInput,
   team1: MatchTeam,

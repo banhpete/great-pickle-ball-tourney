@@ -105,9 +105,76 @@
   border-radius: 8px;
   border: 1px solid var(--border);
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.home-match-main {
+  display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+
+.score-submit-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.score-submit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.score-warning {
+  font-size: 11px;
+  color: #ef4444;
+  margin: 0;
+}
+
+.score-input {
+  width: 52px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--code-bg);
+  color: var(--text-h);
+  font-size: 13px;
+  text-align: center;
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  /* hide number spinners */
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button { -webkit-appearance: none; }
+  -moz-appearance: textfield;
+}
+
+.score-sep {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.submit-score-btn {
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:hover:not(:disabled) { opacity: 0.85; }
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
 }
 
 .home-match-teams {

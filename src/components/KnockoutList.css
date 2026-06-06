@@ -39,6 +39,11 @@
     gap: 8px;
   }
 
+  .knockout-actions {
+    display: flex;
+    gap: 6px;
+  }
+
   .generate-btn {
     padding: 4px 12px;
     border-radius: 6px;
@@ -53,6 +58,22 @@
 
     &:disabled { opacity: 0.5; cursor: not-allowed; }
     &:hover:not(:disabled) { opacity: 0.8; }
+  }
+
+  .delete-btn {
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 1px solid #ef4444;
+    background: none;
+    color: #ef4444;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+    &:hover:not(:disabled) { opacity: 0.7; }
   }
 
   .pool-name {

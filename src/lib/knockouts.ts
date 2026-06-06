@@ -18,6 +18,11 @@ export async function getKnockouts(): Promise<Knockout[]> {
   }))
 }
 
+export async function deleteKnockout(id: number): Promise<void> {
+  const { error } = await supabase.from('Knockout').delete().eq('id', id)
+  if (error) throw error
+}
+
 export async function createKnockout(input: {
   pool_1_id: number
   pool_2_id: number

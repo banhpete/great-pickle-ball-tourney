@@ -1,5 +1,5 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react'
-import { getKnockouts, type Knockout } from '../lib/knockouts'
+import { getKnockouts, deleteKnockout, type Knockout } from '../lib/knockouts'
 import { getPools, type Pool } from '../lib/pools'
 import { getMatches, generateKnockoutMatches, type Match } from '../lib/matches'
 import './KnockoutList.css'
@@ -13,6 +13,7 @@ export default function KnockoutList({ knockouts, setKnockouts }: Props) {
   const [pools, setPools] = useState<Pool[]>([])
   const [matches, setMatches] = useState<Match[]>([])
   const [generatingId, setGeneratingId] = useState<number | null>(null)
+  const [deletingId, setDeletingId] = useState<number | null>(null)
 
   useEffect(() => {
     getKnockouts().then(setKnockouts).catch(console.error)
@@ -21,6 +22,18 @@ export default function KnockoutList({ knockouts, setKnockouts }: Props) {
   }, [])
 
   const poolMap = new Map(pools.map((p) => [Number(p.id), p.pool_name]))
+
+  async function handleDelete(id: number) {
+    setDeletingId(id)
+    try {
+      await deleteKnockout(id)
+      setKnockouts((prev) => prev.filter((k) => k.id !== id))
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setDeletingId(null)
+    }
+  }
 
   async function handleGenerate(k: Knockout) {
     setGeneratingId(k.id)
@@ -48,13 +61,22 @@ export default function KnockoutList({ knockouts, setKnockouts }: Props) {
                   <span className="vs">vs</span>
                   <span className="pool-name">{poolMap.get(k.pool_2_id) ?? `Pool ${k.pool_2_id}`}</span>
                 </div>
-                <button
-                  className="generate-btn"
-                  onClick={() => handleGenerate(k)}
-                  disabled={generatingId === k.id}
-                >
-                  {generatingId === k.id ? 'Generating…' : 'Generate Matches'}
-                </button>
+                <div className="knockout-actions">
+                  <button
+                    className="generate-btn"
+                    onClick={() => handleGenerate(k)}
+                    disabled={generatingId === k.id || deletingId === k.id}
+                  >
+                    {generatingId === k.id ? 'Generating…' : 'Generate Matches'}
+                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(k.id)}
+                    disabled={deletingId === k.id || generatingId === k.id}
+                  >
+                    {deletingId === k.id ? '…' : 'Delete'}
+                  </button>
+                </div>
               </div>
               <span className="teams-count">{k.number_of_teams_from_pool} teams from each pool</span>
             </li>
