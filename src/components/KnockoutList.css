@@ -1,0 +1,79 @@
+.knockout-list {
+  h2 {
+    margin: 0 0 16px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-h);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  li {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .knockout-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .knockout-pools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .generate-btn {
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--code-bg);
+    color: var(--text-h);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+    &:hover:not(:disabled) { opacity: 0.8; }
+  }
+
+  .pool-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-h);
+  }
+
+  .vs {
+    font-size: 11px;
+    color: var(--text);
+  }
+
+  .teams-count {
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  .empty {
+    color: var(--text);
+    font-size: 14px;
+    margin: 0;
+  }
+}

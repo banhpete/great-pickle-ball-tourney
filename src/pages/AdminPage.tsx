@@ -7,13 +7,16 @@ import PoolList from '../components/PoolList'
 import PoolForm from '../components/PoolForm'
 import MatchList from '../components/MatchList'
 import MatchForm from '../components/MatchForm'
+import KnockoutList from '../components/KnockoutList'
+import KnockoutForm from '../components/KnockoutForm'
 import type { Player } from '../lib/players'
 import type { Team } from '../lib/teams'
 import type { Pool } from '../lib/pools'
 import type { Match } from '../lib/matches'
+import type { Knockout } from '../lib/knockouts'
 import './AdminPage.css'
 
-type AdminSection = 'players' | 'teams' | 'pools' | 'matches'
+type AdminSection = 'players' | 'teams' | 'pools' | 'matches' | 'knockout'
 
 export default function AdminPage() {
   const [section, setSection] = useState<AdminSection>('players')
@@ -21,6 +24,7 @@ export default function AdminPage() {
   const [teams, setTeams] = useState<Team[]>([])
   const [pools, setPools] = useState<Pool[]>([])
   const [matches, setMatches] = useState<Match[]>([])
+  const [knockouts, setKnockouts] = useState<Knockout[]>([])
 
   return (
     <div className="admin">
@@ -49,6 +53,12 @@ export default function AdminPage() {
         >
           Matches {matches.length > 0 && <span className="tab-count">{matches.length}</span>}
         </button>
+        <button
+          className={section === 'knockout' ? 'active' : ''}
+          onClick={() => setSection('knockout')}
+        >
+          Knockout {knockouts.length > 0 && <span className="tab-count">{knockouts.length}</span>}
+        </button>
       </nav>
 
       {section === 'players' && (
@@ -76,6 +86,13 @@ export default function AdminPage() {
         <div className="admin-content">
           <MatchList matches={matches} setMatches={setMatches} />
           <MatchForm onCreated={(m) => setMatches((prev) => [...prev, m])} />
+        </div>
+      )}
+
+      {section === 'knockout' && (
+        <div className="admin-content">
+          <KnockoutList knockouts={knockouts} setKnockouts={setKnockouts} />
+          <KnockoutForm onCreated={(k) => setKnockouts((prev) => [...prev, k])} />
         </div>
       )}
     </div>

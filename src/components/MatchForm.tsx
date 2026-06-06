@@ -50,7 +50,7 @@ export default function MatchForm({ onCreated }: Props) {
           team_2_id: Number(team2Id),
           match_status: status,
           reference_object_type: refType || null,
-          reference_object_id: refId || null,
+          reference_object_id: refId ? Number(refId) : null,
         },
         team1,
         team2

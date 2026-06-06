@@ -25,7 +25,7 @@ export default function PoolList({ pools, setPools }: Props) {
   function getTeamScore(poolId: string, teamId: string): number | null {
     const id = Number(teamId)
     const poolMatches = matches.filter(
-      (m) => m.reference_object_type === 'Pool' && m.reference_object_id === poolId &&
+      (m) => m.reference_object_type === 'Pool' && m.reference_object_id === Number(poolId) &&
         (m.team_1_id === id || m.team_2_id === id)
     )
     if (!poolMatches.length) return null

@@ -47,6 +47,11 @@
     color: var(--text);
   }
 
+  .match-actions {
+    display: flex;
+    gap: 6px;
+  }
+
   .edit-btn {
     background: none;
     border: 1px solid var(--border);
@@ -61,6 +66,24 @@
       border-color: var(--accent);
       color: var(--accent);
     }
+  }
+
+  .delete-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+
+    &:hover:not(:disabled) {
+      border-color: #f87171;
+      color: #f87171;
+    }
+
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
   }
 
   .match-meta {

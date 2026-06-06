@@ -1,5 +1,5 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react'
-import { getMatches, updateMatch, MATCH_STATUSES, type Match, type MatchStatus } from '../lib/matches'
+import { getMatches, updateMatch, deleteMatch, MATCH_STATUSES, type Match, type MatchStatus } from '../lib/matches'
 import './MatchList.css'
 
 type Props = {
@@ -24,6 +24,7 @@ export default function MatchList({ matches, setMatches }: Props) {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editState, setEditState] = useState<EditState | null>(null)
   const [saving, setSaving] = useState(false)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   useEffect(() => {
     getMatches().then(setMatches).catch(console.error)
@@ -37,6 +38,18 @@ export default function MatchList({ matches, setMatches }: Props) {
       match_status: m.match_status,
       winning_team_id: m.winning_team_id != null ? String(m.winning_team_id) : '',
     })
+  }
+
+  async function handleDelete(id: string) {
+    setDeletingId(id)
+    try {
+      await deleteMatch(id)
+      setMatches((prev) => prev.filter((x) => x.id !== id))
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setDeletingId(null)
+    }
   }
 
   function cancelEdit() {
@@ -88,7 +101,16 @@ export default function MatchList({ matches, setMatches }: Props) {
                   <span>{m.team_2.team_name}</span>
                 </div>
                 {editingId !== m.id && (
-                  <button className="edit-btn" onClick={() => startEdit(m)}>Edit</button>
+                  <div className="match-actions">
+                    <button className="edit-btn" onClick={() => startEdit(m)}>Edit</button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(m.id)}
+                      disabled={deletingId === m.id}
+                    >
+                      {deletingId === m.id ? '…' : 'Delete'}
+                    </button>
+                  </div>
                 )}
               </div>
 
