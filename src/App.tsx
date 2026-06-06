@@ -3,6 +3,8 @@ import AdminPage from "./pages/AdminPage";
 import TeamsPage from "./pages/TeamsPage";
 import HomePage from "./pages/HomePage";
 import KnockoutPage from "./pages/KnockoutPage";
+import RulesPage from "./pages/RulesPage";
+import logoImg from "./assets/logo.png";
 import "./App.css";
 
 function App() {
@@ -13,7 +15,7 @@ function App() {
   return (
     <div className="layout">
       <header className="header">
-        <h1>Great Pickleball Tourney</h1>
+        <img src={logoImg} alt="Great Pickleball Tourney" className="header-logo" />
         <nav className="header-nav">
           <NavLink
             to="/"
@@ -28,6 +30,14 @@ function App() {
             }
           >
             Knockout
+          </NavLink>
+          <NavLink
+            to="/rules"
+            className={({ isActive }) =>
+              isActive ? "nav-link nav-link-active" : "nav-link"
+            }
+          >
+            Rules
           </NavLink>
           <NavLink
             to="/teams"
@@ -45,6 +55,7 @@ function App() {
           <Route path="/pool-play" element={<HomePage />} />
           <Route path="/teams" element={<TeamsPage />} />
           <Route path="/knockout" element={<KnockoutPage />} />
+          <Route path="/rules" element={<RulesPage />} />
           <Route path="/supersecretadmin" element={<AdminPage />} />
         </Routes>
       </main>
