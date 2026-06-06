@@ -11,6 +11,7 @@ type EditState = {
   team_1_score: string
   team_2_score: string
   match_status: MatchStatus
+  winning_team_id: string
 }
 
 const STATUS_LABEL: Record<string, string> = {
@@ -34,6 +35,7 @@ export default function MatchList({ matches, setMatches }: Props) {
       team_1_score: m.team_1_score != null ? String(m.team_1_score) : '',
       team_2_score: m.team_2_score != null ? String(m.team_2_score) : '',
       match_status: m.match_status,
+      winning_team_id: m.winning_team_id != null ? String(m.winning_team_id) : '',
     })
   }
 
@@ -48,15 +50,17 @@ export default function MatchList({ matches, setMatches }: Props) {
     const score1 = editState.team_1_score !== '' ? Number(editState.team_1_score) : null
     const score2 = editState.team_2_score !== '' ? Number(editState.team_2_score) : null
     try {
+      const winnerId = editState.winning_team_id ? Number(editState.winning_team_id) : null
       await updateMatch(m.id, {
         team_1_score: score1,
         team_2_score: score2,
         match_status: editState.match_status,
+        winning_team_id: winnerId,
       })
       setMatches((prev) =>
         prev.map((x) =>
           x.id === m.id
-            ? { ...x, team_1_score: score1, team_2_score: score2, match_status: editState.match_status }
+            ? { ...x, team_1_score: score1, team_2_score: score2, match_status: editState.match_status, winning_team_id: winnerId }
             : x
         )
       )
@@ -121,6 +125,14 @@ export default function MatchList({ matches, setMatches }: Props) {
                       <option key={s} value={s}>{STATUS_LABEL[s]}</option>
                     ))}
                   </select>
+                  <select
+                    value={editState.winning_team_id}
+                    onChange={(e) => setEditState({ ...editState, winning_team_id: e.target.value })}
+                  >
+                    <option value="">No winner</option>
+                    <option value={m.team_1_id}>{m.team_1.team_name}</option>
+                    <option value={m.team_2_id}>{m.team_2.team_name}</option>
+                  </select>
                   <div className="edit-actions">
                     <button className="save-btn" onClick={() => saveEdit(m)} disabled={saving}>
                       {saving ? 'Saving…' : 'Save'}
@@ -135,6 +147,11 @@ export default function MatchList({ matches, setMatches }: Props) {
                   </span>
                   {m.team_1_score != null && m.team_2_score != null && (
                     <span className="score">{m.team_1_score} – {m.team_2_score}</span>
+                  )}
+                  {m.winning_team_id != null && (
+                    <span className="winner">
+                      🏆 {m.winning_team_id === m.team_1_id ? m.team_1.team_name : m.team_2.team_name}
+                    </span>
                   )}
                   {m.reference_object_type && (
                     <span className="reference">{m.reference_object_type} #{m.reference_object_id}</span>

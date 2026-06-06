@@ -16,6 +16,11 @@ export async function getTeams(): Promise<Team[]> {
   return data.map((t) => ({ ...t, Player: t.Player.filter(Boolean) }))
 }
 
+export async function updateTeam(id: string, team_name: string): Promise<void> {
+  const { error } = await supabase.from('Team').update({ team_name }).eq('id', id)
+  if (error) throw error
+}
+
 export async function createTeam(team_name: string): Promise<Team> {
   const { data, error } = await supabase
     .from('Team')

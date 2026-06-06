@@ -46,8 +46,8 @@ export default function MatchForm({ onCreated }: Props) {
     try {
       const match = await createMatch(
         {
-          team_1_id: team1Id,
-          team_2_id: team2Id,
+          team_1_id: Number(team1Id),
+          team_2_id: Number(team2Id),
           match_status: status,
           reference_object_type: refType || null,
           reference_object_id: refId || null,

@@ -1,0 +1,158 @@
+.teams-page {
+  h2 {
+    margin: 0 0 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-h);
+  }
+}
+
+.teams-page-empty {
+  color: var(--text);
+  font-size: 14px;
+  margin: 0;
+}
+
+.teams-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.team-card {
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.team-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.team-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.edit-name-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+
+  &:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+}
+
+.team-card-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  input {
+    width: 100%;
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: var(--code-bg);
+    color: var(--text-h);
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    box-sizing: border-box;
+  }
+}
+
+.team-card-edit-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.save-name-btn {
+  flex: 1;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &:hover:not(:disabled) { opacity: 0.85; }
+}
+
+.cancel-name-btn {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text);
+  font-size: 12px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &:hover:not(:disabled) { opacity: 0.7; }
+}
+
+.team-card-players {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  li {
+    font-size: 13px;
+    color: var(--text);
+  }
+}
+
+.team-card-empty {
+  font-size: 13px;
+  color: var(--text);
+  margin: 0;
+  opacity: 0.5;
+}
+
+.team-card-record {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.record-wins {
+  color: #16a34a;
+}
+
+.record-losses {
+  color: #ef4444;
+}
+
+.record-sep {
+  color: var(--text);
+  opacity: 0.4;
+}

@@ -10,20 +10,21 @@ export type MatchTeam = { id: string; team_name: string }
 
 export type Match = {
   id: string
-  team_1_id: string
-  team_2_id: string
+  team_1_id: number
+  team_2_id: number
   team_1_score: number | null
   team_2_score: number | null
   match_status: MatchStatus
   reference_object_type: ReferenceObjectType | null
   reference_object_id: string | null
+  winning_team_id: number | null
   team_1: MatchTeam
   team_2: MatchTeam
 }
 
 export type CreateMatchInput = {
-  team_1_id: string
-  team_2_id: string
+  team_1_id: number
+  team_2_id: number
   match_status: MatchStatus
   reference_object_type: ReferenceObjectType | null
   reference_object_id: string | null
@@ -40,9 +41,10 @@ export async function getMatches(): Promise<Match[]> {
   return (raw ?? []).map((m) => ({
     ...m,
     id: String(m.id),
-    team_1_id: String(m.team_1_id),
-    team_2_id: String(m.team_2_id),
+    team_1_id: Number(m.team_1_id),
+    team_2_id: Number(m.team_2_id),
     reference_object_id: m.reference_object_id ? String(m.reference_object_id) : null,
+    winning_team_id: m.winning_team_id != null ? Number(m.winning_team_id) : null,
     team_1: teamMap.get(String(m.team_1_id)) ?? { id: String(m.team_1_id), team_name: 'Unknown' },
     team_2: teamMap.get(String(m.team_2_id)) ?? { id: String(m.team_2_id), team_name: 'Unknown' },
   }))
@@ -56,8 +58,8 @@ export async function generatePoolMatches(
     for (let i = 0; i < pool.teams.length; i++) {
       for (let j = i + 1; j < pool.teams.length; j++) {
         rows.push({
-          team_1_id: pool.teams[i].id,
-          team_2_id: pool.teams[j].id,
+          team_1_id: Number(pool.teams[i].id),
+          team_2_id: Number(pool.teams[j].id),
           match_status: 'pending',
           reference_object_type: 'Pool',
           reference_object_id: pool.id,
@@ -74,7 +76,7 @@ export async function generatePoolMatches(
 
 export async function updateMatch(
   id: string,
-  input: { team_1_score: number | null; team_2_score: number | null; match_status: MatchStatus }
+  input: { team_1_score: number | null; team_2_score: number | null; match_status: MatchStatus; winning_team_id: number | null }
 ): Promise<void> {
   const { error } = await supabase.from('Match').update(input).eq('id', id)
   if (error) throw error

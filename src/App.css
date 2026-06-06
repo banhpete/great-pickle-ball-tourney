@@ -12,13 +12,55 @@
 }
 
 .header {
-  padding: 24px 0;
+  padding: 0;
   border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
 
   h1 {
     margin: 0;
     font-size: 24px;
+    padding: 20px 0;
   }
+}
+
+.header-logo {
+  height: 36px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.header-nav {
+  display: flex;
+  gap: 4px;
+  align-self: stretch;
+  align-items: stretch;
+  margin-left: auto;
+  margin-right: 18px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 8px 18px 2px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+
+  &:hover {
+    color: var(--text-h);
+  }
+}
+
+.nav-link-active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 
 .main {

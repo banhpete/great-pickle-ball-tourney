@@ -1,5 +1,5 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react'
-import { getTeams, type Team } from '../lib/teams'
+import { getTeams, updateTeam, type Team } from '../lib/teams'
 import { getUnassignedPlayers, assignPlayerToTeam, removePlayerFromTeam, randomizePlayersToTeams, type Player } from '../lib/players'
 import './TeamList.css'
 
@@ -13,6 +13,9 @@ export default function TeamList({ teams, setTeams }: Props) {
   const [selected, setSelected] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState<Record<string, boolean>>({})
   const [randomizing, setRandomizing] = useState(false)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editName, setEditName] = useState('')
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     getTeams().then(setTeams).catch(console.error)
@@ -32,6 +35,31 @@ export default function TeamList({ teams, setTeams }: Props) {
       console.error(err)
     } finally {
       setRandomizing(false)
+    }
+  }
+
+  function startEdit(t: Team) {
+    setEditingId(t.id)
+    setEditName(t.team_name)
+  }
+
+  function cancelEdit() {
+    setEditingId(null)
+    setEditName('')
+  }
+
+  async function saveEdit(id: string) {
+    const name = editName.trim()
+    if (!name) return
+    setSaving(true)
+    try {
+      await updateTeam(id, name)
+      setTeams((prev) => prev.map((t) => t.id === id ? { ...t, team_name: name } : t))
+      cancelEdit()
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -93,7 +121,25 @@ export default function TeamList({ teams, setTeams }: Props) {
         <ul>
           {teams.map((t) => (
             <li key={t.id}>
-              <span className="team-name">{t.team_name}</span>
+              {editingId === t.id ? (
+                <div className="team-name-edit">
+                  <input
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') saveEdit(t.id); if (e.key === 'Escape') cancelEdit() }}
+                    autoFocus
+                  />
+                  <button className="save-name-btn" onClick={() => saveEdit(t.id)} disabled={saving || !editName.trim()}>
+                    {saving ? '…' : 'Save'}
+                  </button>
+                  <button className="cancel-name-btn" onClick={cancelEdit} disabled={saving}>Cancel</button>
+                </div>
+              ) : (
+                <div className="team-name-row">
+                  <span className="team-name">{t.team_name}</span>
+                  <button className="edit-name-btn" onClick={() => startEdit(t)}>Edit</button>
+                </div>
+              )}
               {t.Player.length > 0 && (
                 <ul className="team-players">
                   {t.Player.map((p) => (

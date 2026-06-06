@@ -1,6 +1,6 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react'
 import { getPools, getUnassignedTeams, addTeamToPool, removeTeamFromPool, randomizeTeamsToPools, type Pool, type PoolTeam } from '../lib/pools'
-import { generatePoolMatches } from '../lib/matches'
+import { generatePoolMatches, getMatches, type Match } from '../lib/matches'
 import './PoolList.css'
 
 type Props = {
@@ -14,11 +14,30 @@ export default function PoolList({ pools, setPools }: Props) {
   const [loading, setLoading] = useState<Record<string, boolean>>({})
   const [randomizing, setRandomizing] = useState(false)
   const [generating, setGenerating] = useState(false)
+  const [matches, setMatches] = useState<Match[]>([])
 
   useEffect(() => {
     getPools().then(setPools).catch(console.error)
     getUnassignedTeams().then(setUnassigned).catch(console.error)
+    getMatches().then(setMatches).catch(console.error)
   }, [])
+
+  function getTeamScore(poolId: string, teamId: string): number | null {
+    const id = Number(teamId)
+    const poolMatches = matches.filter(
+      (m) => m.reference_object_type === 'Pool' && m.reference_object_id === poolId &&
+        (m.team_1_id === id || m.team_2_id === id)
+    )
+    if (!poolMatches.length) return null
+    const total = poolMatches.reduce((sum, m) => {
+      const score = m.team_1_id === id ? m.team_1_score : m.team_2_score
+      return sum + (score ?? 0)
+    }, 0)
+    const hasAnyScore = poolMatches.some(
+      (m) => (m.team_1_id === id ? m.team_1_score : m.team_2_score) != null
+    )
+    return hasAnyScore ? total : null
+  }
 
   async function handleRandomize() {
     if (!unassigned.length || !pools.length) return
@@ -40,6 +59,7 @@ export default function PoolList({ pools, setPools }: Props) {
     setGenerating(true)
     try {
       await generatePoolMatches(pools)
+      getMatches().then(setMatches).catch(console.error)
     } catch (err) {
       console.error(err)
     } finally {
@@ -109,12 +129,18 @@ export default function PoolList({ pools, setPools }: Props) {
               <span className="pool-name">{p.pool_name}</span>
               {p.teams.length > 0 && (
                 <ul className="pool-teams">
-                  {p.teams.map((t) => (
-                    <li key={t.id}>
-                      <span>· {t.team_name}</span>
-                      <button className="remove-team" onClick={() => handleRemove(p.id, t)}>✕</button>
-                    </li>
-                  ))}
+                  {p.teams.map((t) => {
+                    const score = getTeamScore(p.id, String(t.id))
+                    return (
+                      <li key={t.id}>
+                        <span>· {t.team_name}</span>
+                        <span className="team-score-row">
+                          {score != null && <span className="team-score">{score} pts</span>}
+                          <button className="remove-team" onClick={() => handleRemove(p.id, t)}>✕</button>
+                        </span>
+                      </li>
+                    )
+                  })}
                 </ul>
               )}
               {unassigned.length > 0 && (

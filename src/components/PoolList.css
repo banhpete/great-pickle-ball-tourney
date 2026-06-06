@@ -101,6 +101,18 @@
     }
   }
 
+  .team-score-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .team-score {
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
   .remove-team {
     background: none;
     border: none;

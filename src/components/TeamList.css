@@ -53,8 +53,77 @@
     font-size: 14px;
   }
 
+  .team-name-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .team-name {
     font-weight: 600;
+  }
+
+  .edit-name-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+
+    &:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  }
+
+  .team-name-edit {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+    input {
+      flex: 1;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--accent);
+      background: var(--code-bg);
+      color: var(--text-h);
+      font-size: 14px;
+      font-weight: 600;
+      outline: none;
+    }
+  }
+
+  .save-name-btn {
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+    &:hover:not(:disabled) { opacity: 0.85; }
+  }
+
+  .cancel-name-btn {
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--text);
+    font-size: 12px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+    &:hover:not(:disabled) { opacity: 0.7; }
   }
 
   .team-players {
