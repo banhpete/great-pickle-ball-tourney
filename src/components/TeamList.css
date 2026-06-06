@@ -1,0 +1,143 @@
+.team-list {
+  .team-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-h);
+  }
+
+  .randomize-btn {
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--accent-border);
+    background: var(--accent-bg);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      opacity: 0.8;
+    }
+  }
+
+  > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  > ul > li {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    color: var(--text-h);
+    font-size: 14px;
+  }
+
+  .team-name {
+    font-weight: 600;
+  }
+
+  .team-players {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    li {
+      font-size: 13px;
+      color: var(--text);
+      padding-left: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .remove-player {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 11px;
+    cursor: pointer;
+    padding: 1px 4px;
+    border-radius: 4px;
+    line-height: 1;
+    opacity: 0.5;
+    transition: opacity 0.2s, color 0.2s;
+
+    &:hover {
+      opacity: 1;
+      color: #f87171;
+    }
+  }
+
+  .add-player {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+
+    select {
+      flex: 1;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--code-bg);
+      color: var(--text-h);
+      font-size: 13px;
+      outline: none;
+
+      &:focus {
+        border-color: var(--accent);
+      }
+    }
+
+    button {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      &:hover:not(:disabled) {
+        opacity: 0.85;
+      }
+    }
+  }
+
+  .empty {
+    color: var(--text);
+    font-size: 14px;
+    margin: 0;
+  }
+}
